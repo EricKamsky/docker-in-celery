@@ -1,0 +1,15 @@
+version: "3.5"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.7.3-alpine
+    ports:
+      - 5672:5672
+  celery:
+    build: .
+    image: celery_tasks:latest
+    depends_on:
+      - rabbitmq
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./tasks.py:/app/tasks.py
